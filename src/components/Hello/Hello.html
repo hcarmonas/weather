@@ -1,0 +1,13 @@
+<div class="card-holder">
+  <md-card>
+    <md-card-header>
+      <div class="md-title">{{ msg }}</div>
+    </md-card-header>
+    <md-card-content>
+      <md-input-container>
+        <label for="msg">Display message</label>
+        <md-input name="msg" v-on:change="msgInput"></md-input>
+      </md-input-container>
+    </md-card-content>
+  </md-card>
+</div>

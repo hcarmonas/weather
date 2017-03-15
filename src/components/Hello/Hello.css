@@ -1,0 +1,9 @@
+.card-holder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-holder .md-card {
+  width: 50em;
+}
