@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+import weaher from './weather'
 
 export const store = new Vuex.Store({
   state: {
@@ -8,6 +9,9 @@ export const store = new Vuex.Store({
     setMsg: (state, msg) => {
       state.msg = msg
     }
+  },
+  modules: {
+    weaher
   }
 })
 

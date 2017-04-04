@@ -1,8 +1,9 @@
 import api from '../../api.js'
+import moment from 'moment'
 
 export default {
   name: 'weather',
-  data: function () {
+  data: () => {
     return {
       isActive: false,
       hasError: true,
@@ -14,24 +15,26 @@ export default {
     }
   },
   methods: {
-    search: function () {
+    search () {
       var self = this
       api.forecast({q: self.city + ',BR', units: 'metric'}, function (data, err) {
+        console.log(self)
         self.weather.data = data
         console.log(self.weather.data)
       })
     },
-    moment: function (date) {
+    moment (date) {
       return moment(date)
     },
-    date: function (date) {
+    date (date) {
       return moment(date).format('MMMM Do YYYY, h:mm:ss a')
     }
   },
   filters: {
-    moment: function (date) {
+    moment (date) {
       return moment(date).format('MMMM Do YYYY, h:mm:ss a')
     }
   }
 }
+
 
