@@ -92,4 +92,7 @@ md-input-container .inputCity{
     vertical-align: baseline;
     border-radius: .25em;
 }
-	
+
+.text-danger{
+  color: red;
+}

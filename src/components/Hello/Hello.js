@@ -11,15 +11,12 @@ export default {
       this.$store.commit('setMsg', value)
     }
   },
-  mounted: function() {
-	
-
-	// Via callback
-	api.now({q: 'Joinville,BR'}, function(data, err) {
-	  if (err) {
-	    console.error(err)
-	  }
-	  	console.log(data)
-	})
+  mounted: function () {
+    // Via callback
+    api.now({q: 'Joinville,BR'}, function (data, err) {
+      if (err) {
+        console.error(err)
+      }
+    })
   }
 }

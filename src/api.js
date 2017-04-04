@@ -1,4 +1,4 @@
-const API_KEY = process.env.API_KEY
+const API_KEY = 'e8e7c32e07237bd7a8e4fbb9f8e88903'
 const BASE_URL = 'http://api.openweathermap.org/data/2.5/'
 
 function queryParams (params) {
