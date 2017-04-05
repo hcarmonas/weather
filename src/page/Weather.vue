@@ -176,8 +176,12 @@
     <spanText @increment="incrementTotal"></spanText>
     <spanText @increment="incrementTotal"></spanText>
     <slotComponent>
+      <h2 slot="header">Here might be a page title</h2>
+
       <p>This is some original content</p>
       <p>This is some more original content</p>
+
+      <h5 slot="footer">Here's some contact info</h5>
     </slotComponent>
   </md-card>
 </div>
