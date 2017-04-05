@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import Weather from '@/components/Weather'
+import Weather from '@/page/Weather.vue'
 
 Vue.use(Router)
 
