@@ -10,6 +10,8 @@
   </slot>
 
   <slot name="footer"></slot>
+
+  <slot name="dinamic" text="hello from child"></slot>
 </div>
 </template>
 

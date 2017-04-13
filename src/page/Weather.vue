@@ -1,189 +1,109 @@
 <template lang="html">
-<div id="weather" class=''>
-  <md-card>
-    <md-card-header md-flex-xsmall>
-      <div class="md-title">Current weather and forecasts in your city</div>
-
-    </md-card-header>
-    <md-card-content class="card-content">
-      <md-layout :md-gutter="8">
-        <md-layout md-flex-xsmall="100" md-flex-medium="80" md-flex-large="80">
+<div id="weather">
+  <md-layout>
+    <md-layout md-align="center" md-flex="100" md-flex-small="100" style="padding: 5px;">
+      <md-card style="width: 400px;">
+        <md-card-content>
           <md-input-container md-inline>
-            <label>Select your city</label>
+            <label>Search your city to know the weather forecast</label>
             <md-input class="inputCity" v-model="city"></md-input>
+            <md-button class="md-icon-button" @click.native="search"><md-icon>search</md-icon></md-button>
           </md-input-container>
-
-        </md-layout>
-        <md-layout md-align="center" md-flex-xsmall="100" md-flex-medium="20" md-flex-large="20">
-          <md-button class="md-raised md-primary" @click.native="search">Search</md-button>
-        </md-layout>
-      </md-layout>
-      <md-layout md-gutter v-if="weather.data.city">
-        <md-layout class="red" md-flex-xsmall="100" md-flex-small="100" md-flex-medium="33" md-flex-large="33">
-          <div md-row class="weatherNowContainer">
-            <h1>Weather in {{weather.data.city.name}}, {{weather.data.city.country}}</h1>
-            <div>
-              <img :src="'http://openweathermap.org/img/w/' + weather.data.list['0'].weather['0'].icon + '.png'" class="forecastImg">
-              <h1 class="weatherNowTemp" v-bind:class="{ active: isActive, 'text-danger': hasError }">{{weather.data.list[0].main.temp}} ° C</h1>
-            </div>
-            <div>
-              <h2 class="weatherNowDesc">{{weather.data.list["0"].weather["0"].description}}</h2>
-            </div>
-          </div>
-          <div class="weatherNowTableContainer">
-            <md-table class="weatherNowTable">
-              <md-table-body>
-                <md-table-row>
-                  <md-table-cell class="weatherNowTableCell">Wind</md-table-cell>
-                  <md-table-cell>Velocidade de {{weather.data.list["0"].wind.speed}} m/s</md-table-cell>
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell class="weatherNowTableCell">Cloudiness</md-table-cell>
-                  <md-table-cell>{{weather.data.list["0"].weather["0"].description}}</md-table-cell>
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell class="weatherNowTableCell">Pressure</md-table-cell>
-                  <md-table-cell>{{weather.data.list["0"].main.pressure}} hpa</md-table-cell>
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell class="weatherNowTableCell">Humidity</md-table-cell>
-                  <md-table-cell>{{weather.data.list["0"].main.humidity}}%</md-table-cell>
-                </md-table-row>
-              </md-table-body>
-            </md-table>
-          </div>
-        </md-layout>
-
-        <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="67" md-flex-large="67">
-          <div>
-            <h2 class="forecastTitle">5 day weather forecast</h2>
-          </div>
-
-          <div class="tableForecastContainer">
-            <md-table class="forecastTable">
-              <md-table-body>
-                <md-table-row>
-                  <md-table-cell class="forecastTableCellRight">
-                    <div>
-                      <p class="forecastTableCellDate">{{moment(weather.data.list[5].dt_txt).format('ddd DD MMM')}}</p>
-                      <img :src="'http://openweathermap.org/img/w/' + weather.data.list['5'].weather['0'].icon + '.png'" class="forecastImg">
-                    </div>
-                  </md-table-cell>
-                  <md-table-cell class="forecastTableCellLeft">
-                    <div class="forecastText">
-                      <span class="label labelMax">{{weather.data.list[5].main.temp_max}} °C</span>
-                      <span class="label labelMin">{{weather.data.list[2].main.temp_min}} °C</span>
-                      <i>{{weather.data.list["5"].weather["0"].description}}</i>
-                      <p>
-                        {{weather.data.list["5"].wind.speed}} m/s
-                        <br> Clouds {{weather.data.list["5"].clouds.all}}%, {{weather.data.list["5"].main.pressure}} hpa
-                      </p>
-                    </div>
-                  </md-table-cell>
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell class="forecastTableCellRight">
-                    <div>
-                      <p class="forecastTableCellDate">{{moment(weather.data.list[13].dt_txt).format('ddd DD MMM')}}</p>
-                      <img :src="'http://openweathermap.org/img/w/' + weather.data.list['13'].weather['0'].icon + '.png'" class="forecastImg">
-                    </div>
-                  </md-table-cell>
-                  <md-table-cell class="forecastTableCellLeft">
-                    <div class="forecastText">
-                      <span class="label labelMax">{{weather.data.list[13].main.temp_max}} °C</span>
-                      <span class="label labelMin">{{weather.data.list[10].main.temp_min}} °C</span>
-                      <i>{{weather.data.list["13"].weather["0"].description}}</i>
-                      <p>
-                        {{weather.data.list["13"].wind.speed}} m/s
-                        <br> Clouds {{weather.data.list["13"].clouds.all}}%, {{weather.data.list["13"].main.pressure}} hpa
-                      </p>
-                    </div>
-                  </md-table-cell>
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell class="forecastTableCellRight">
-                    <div>
-                      <p class="forecastTableCellDate">{{moment(weather.data.list[21].dt_txt).format('ddd DD MMM')}}</p>
-                      <img :src="'http://openweathermap.org/img/w/' + weather.data.list['21'].weather['0'].icon + '.png'" class="forecastImg">
-                    </div>
-                  </md-table-cell>
-                  <md-table-cell class="forecastTableCellLeft">
-                    <div class="forecastText">
-                      <span class="label labelMax">{{weather.data.list[21].main.temp_max}} °C</span>
-                      <span class="label labelMin">{{weather.data.list[18].main.temp_min}} °C</span>
-                      <i>{{weather.data.list["21"].weather["0"].description}}</i>
-                      <p>
-                        {{weather.data.list["21"].wind.speed}} m/s
-                        <br> Clouds {{weather.data.list["21"].clouds.all}}%, {{weather.data.list["21"].main.pressure}} hpa
-                      </p>
-                    </div>
-                  </md-table-cell>
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell class="forecastTableCellRight">
-                    <div>
-                      <p class="forecastTableCellDate">{{moment(weather.data.list[29].dt_txt).format('ddd DD MMM')}}</p>
-                      <img :src="'http://openweathermap.org/img/w/' + weather.data.list['29'].weather['0'].icon + '.png'" class="forecastImg">
-                    </div>
-                  </md-table-cell>
-                  <md-table-cell class="forecastTableCellLeft">
-                    <div class="forecastText">
-                      <span class="label labelMax">{{weather.data.list[29].main.temp_max}} °C</span>
-                      <span class="label labelMin">{{weather.data.list[26].main.temp_min}} °C</span>
-                      <i>{{weather.data.list["29"].weather["0"].description}}</i>
-                      <p>
-                        {{weather.data.list["29"].wind.speed}} m/s
-                        <br> Clouds {{weather.data.list["29"].clouds.all}}%, {{weather.data.list["29"].main.pressure}} hpa
-                      </p>
-                    </div>
-                  </md-table-cell>
-                </md-table-row>
-                <md-table-row>
-                  <md-table-cell class="forecastTableCellRight">
-                    <div>
-                      <p class="forecastTableCellDate">{{moment(weather.data.list[37].dt_txt).format('ddd DD MMM')}}</p>
-                      <img :src="'http://openweathermap.org/img/w/' + weather.data.list['37'].weather['0'].icon + '.png'" class="forecastImg">
-                    </div>
-                  </md-table-cell>
-                  <md-table-cell class="forecastTableCellLeft">
-                    <div class="forecastText">
-                      <span class="label labelMax">{{weather.data.list[37].main.temp_max}} °C</span>
-                      <span class="label labelMin">{{weather.data.list[33].main.temp_min}} °C</span>
-                      <i>{{weather.data.list["37"].weather["0"].description}}</i>
-                      <p>
-                        {{weather.data.list["37"].wind.speed}} m/s
-                        <br> Clouds {{weather.data.list["37"].clouds.all}}%, {{weather.data.list["37"].main.pressure}} hpa
-                      </p>
-                    </div>
-                  </md-table-cell>
-                </md-table-row>
-              </md-table-body>
-            </md-table>
-          </div>
-        </md-layout>
-      </md-layout>
-    </md-card-content>
-  </md-card>
-  <md-card>
-    <md-input-container md-inline style="width: 200px; margin-left: 550px">
-      <label>Select your message</label>
-      <md-input v-model="message"></md-input>
-    </md-input-container>
-    <!--passando parametro para o component, direto e via bind-->
-    <!--<spanText message='spannnText' :my-message='message'></spanText>-->
-
-    <p>{{ total }}</p>
-    <spanText @increment="incrementTotal"></spanText>
-    <spanText @increment="incrementTotal"></spanText>
-    <slotComponent>
-      <h2 slot="header">Here might be a page title</h2>
-
-      <p>This is some original content</p>
-      <p>This is some more original content</p>
-
-      <h5 slot="footer">Here's some contact info</h5>
-    </slotComponent>
-  </md-card>
+        </md-card-content>
+      </md-card>
+    </md-layout>
+    <md-layout v-if="weather.data.city" md-flex="100" md-flex-xsmall="100" md-flex-small="100" md-flex-medium="30" md-flex-large="30" style="padding: 5px;">
+      <md-card style="width: 100%; height:200px; background-color: orange">
+        <md-card-header>
+          <md-layout md-flex="100">
+            <span class="md-display-1" style="color: white">{{weather.data.city.name}}</span>
+          </md-layout>
+          <md-layout md-flex="100">
+             <span style="font-size: 15px; color: white; padding-left: 2px">{{weather.data.list["0"].weather["0"].description}}</span>
+          </md-layout>
+        </md-card-header>
+        <md-card-content>
+          <md-layout>
+            <md-layout md-align="center" md-flex="30">
+              <img style="width: 100px; height: 100px; margin-bottom: -15px; margin-top: -15px;" :src="'http://openweathermap.org/img/w/' + weather.data.list['0'].weather['0'].icon + '.png'" class="forecastImg">
+            </md-layout>
+            <md-layout md-align="center" md-flex="70">
+              <span style="font-size: 70px; color: white; padding-top: 15px;">{{temp}}°C</span>
+            </md-layout>
+          </md-layout>
+        </md-card-content>
+      </md-card >
+    </md-layout>
+    <md-layout v-if="weather.data.city" md-flex="100" md-flex-xsmall="100" md-flex-small="100" md-flex-medium="30" md-flex-large="30" style="padding: 5px;">
+      <md-card style="width: 100%">
+        <md-card-header>
+          <span class="md-title">Details</span>
+        </md-card-header>
+        <md-card-content>
+          <md-layout>
+            <md-layout md-align="center" md-flex="30">
+              <img style="width: 50px; height: 50px;" src="../assets/wind.png">
+            </md-layout>
+            <md-layout md-align="right" md-flex="70">
+              <span class="md-body-2" style="padding-top: 15px">Velocidade de {{weather.data.list["0"].wind.speed}} m/s</span>
+            </md-layout>
+          </md-layout>
+          <md-layout>
+            <md-layout md-align="center" md-flex="30">
+              <img style="width: 50px; height: 50px;" src="../assets/clouds.png">
+            </md-layout>
+            <md-layout md-align="right" md-flex="70">
+              <span class="md-body-2" style="padding-top: 15px">{{weather.data.list["0"].weather["0"].description}}</span>
+            </md-layout>
+          </md-layout>
+          <md-layout>
+            <md-layout md-align="center" md-flex="30">
+              <img style="width: 50px; height: 50px;" src="../assets/pressure.png">
+            </md-layout>
+            <md-layout md-align="right" md-flex="70">
+              <span class="md-body-2" style="padding-top: 15px">{{weather.data.list["0"].main.pressure}} hpa</span>
+            </md-layout>
+          </md-layout>
+          <md-layout>
+            <md-layout md-align="center" md-flex="30">
+              <img style="width: 50px; height: 50px;" src="../assets/umbrella.png">
+            </md-layout>
+            <md-layout md-align="right" md-flex="70">
+              <span class="md-body-2" style="padding-top: 15px">{{weather.data.list["0"].main.humidity}}%</span>
+            </md-layout>
+          </md-layout>
+        </md-card-content>
+      </md-card>
+    </md-layout>
+    <md-layout v-if="weather.data.city" md-flex="100" md-flex-xsmall="100" md-flex-small="100" md-flex-medium="40" md-flex-large="40" style="padding: 5px;">
+      <md-card style="width: 480px; padding: 5px">
+        <md-card-header>
+          <span class="md-title">5 day weather forecast</span>
+        </md-card-header>
+        <md-card-content>
+          <md-layout>
+            <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="50" md-flex-large="50">
+                <div>
+                  <p class="forecastTableCellDate">{{moment(weather.data.list[5].dt_txt).format('ddd DD MMM')}}</p>
+                  <img :src="'http://openweathermap.org/img/w/' + weather.data.list['5'].weather['0'].icon + '.png'" class="forecastImg">
+                </div>
+            </md-layout>
+            <md-layout md-flex-xsmall="100" md-flex-small="100" md-flex-medium="50" md-flex-large="50">
+                <div class="forecastText">
+                  <span class="label labelMax">{{weather.data.list[5].main.temp_max}} °C</span>
+                  <span class="label labelMin">{{weather.data.list[2].main.temp_min}} °C</span>
+                  <i>{{weather.data.list["5"].weather["0"].description}}</i>
+                  <p>
+                    {{weather.data.list["5"].wind.speed}} m/s
+                    <br> Clouds {{weather.data.list["5"].clouds.all}}%, {{weather.data.list["5"].main.pressure}} hpa
+                  </p>
+                </div>
+            </md-layout>
+          </md-layout>
+        </md-card-content>
+      </md-card>
+    </md-layout>
+  </md-layout>
 </div>
 
 </template>
@@ -193,14 +113,15 @@ import api from '../api.js'
 import moment from 'moment'
 import spanText from '@/components/spanText.vue'
 import slotComponent from '@/components/slotComponent.vue'
+import refComponent from '@/components/refComponent.vue'
+import counter from '@/components/counter.vue'
 
 export default {
   data: () => {
     return {
       message: '',
       total: 0,
-      isActive: false,
-      hasError: true,
+      temp: '',
       city: '',
       weather: {
         data: {}
@@ -211,8 +132,8 @@ export default {
   methods: {
     search () {
       api.forecast({q: this.city + ',BR', units: 'metric'}, (data, err) => {
-        console.log(this)
         this.weather.data = data
+        this.temp = data.list[0].main.temp.toString().split('.')[0]
       })
     },
     moment (date) {
@@ -223,6 +144,9 @@ export default {
     },
     incrementTotal () {
       this.total += 1
+    },
+    referencia () {
+      this.$refs.alert.alertTest()
     }
   },
   filters: {
@@ -232,7 +156,10 @@ export default {
   },
   components: {
     'spanText': spanText,
-    'slotComponent': slotComponent
+    'slotComponent': slotComponent,
+    'refComponent': refComponent,
+    'my-component': () => import('@/components/asyncComponent.vue'),
+    'counter': counter
   }
 }
 </script>
@@ -243,96 +170,103 @@ export default {
   justify-content: center;
 }
 
-p{
-	    margin: 0 0 10px;
+p {
+  margin: 0 0 10px;
 }
 
-md-input-container .inputCity{
-	width: 100px
+md-input-container .inputCity {
+  width: 100px
 }
 
-.weatherNowContainer{
-	margin: 0px 0px 0px 100px;
+.weatherNowContainer {
+  margin: 0px 0px 0px 100px;
 }
 
 
-.weatherNowTemp{
-	padding-top: 10px;; width: 200px; text-align: left;
+.weatherNowTemp {
+  padding-top: 10px;
+  ;
+  width: 200px;
+  text-align: left;
 }
 
-.weatherNowDesc{
-	text-align: left;
+.weatherNowDesc {
+  text-align: left;
 }
 
-.weatherNowTableContainer{
-	margin: 0px 0px 0px 100px;
+.weatherNowTableContainer {
+  margin: 0px 0px 0px 100px;
 }
 
-.weatherNowTable{
-	border: solid 1px #e0e0e0;
+.weatherNowTable {
+  border: solid 1px #e0e0e0;
 }
 
-.weatherNowTableCell{
-	border-right: solid 1px #e0e0e0;
+.weatherNowTableCell {
+  border-right: solid 1px #e0e0e0;
 }
 
-.forecastTitle{
-	height: 10px
+.forecastTitle {
+  height: 10px
 }
 
-.tableForecastContainer{
-	width: 800px
+.tableForecastContainer {
+
 }
 
-.forecastTable{
-	width: 600px; border: solid 1px #e0e0e0;
+.forecastTable {
+  width: 500px;
+  border: solid 1px #e0e0e0;
 }
 
-.forecastTableCellRight{
-	width: 250px
+.forecastTableCellRight {
+  width: 200px
 }
 
-.forecastTableCellDate{
-	width: 100px;float:left;padding-top: 15px; font-size: 16px
+.forecastTableCellDate {
+  width: 100px;
+  float: left;
+  padding-top: 15px;
+  font-size: 16px
 }
 
-.forecastTableCellLeft{
-	padding: 8px;
-                                        line-height: 1.42857143;
-                                        vertical-align: top;
-                                        border-top: 1px solid #ddd;
+.forecastTableCellLeft {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
 }
 
-.forecastText{
-	text-align: left
+.forecastText {
+  text-align: left
 }
 
-.forecastImg{
-	float: left
+.forecastImg {
+  float: left
 }
 
-.labelMax{
-	background-color: #f0ad4e;
+.labelMax {
+  background-color: #f0ad4e;
 }
 
-.labelMin{
-	background-color: #999;
+.labelMin {
+  background-color: #999;
 }
 
-.label{
-	display: inline;
-    padding: .2em .6em .3em;
-    font-size: 75%;
-    font-weight: 700;
-    line-height: 1;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .25em;
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
 }
 
-.text-danger{
+.text-danger {
   color: red;
 }
 </style>

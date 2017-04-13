@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
-import weaher from './weather'
+import weather from './weather'
+import counter from './counter'
 
 export const store = new Vuex.Store({
   state: {
@@ -11,7 +12,8 @@ export const store = new Vuex.Store({
     }
   },
   modules: {
-    weaher
+    weather,
+    counter
   }
 })
 
